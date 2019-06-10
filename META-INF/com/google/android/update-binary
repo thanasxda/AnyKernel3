@@ -205,6 +205,16 @@ if [ "$(file_getprop anykernel.sh do.modules)" == 1 ]; then
   $bb mount -o ro,remount -t auto /vendor 2>/dev/null;
 fi;
 
+if [ -f tweak/mlx.sh ]; then
+  $bb mount -o rw,remount -t auto /data;
+ui_print "MLX log: optimizing your device...";
+ui_print "";
+  mv tweak/mlx.sh /data/adb/service.d/mlx.sh
+  chmod 755 /data/adb/service.d/mlx.sh
+ui_print "MALAKAS INJECTION COMPLETED";
+ui_print " ";
+fi;
+
 debugging;
 
 if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
