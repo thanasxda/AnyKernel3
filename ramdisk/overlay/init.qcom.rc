@@ -2,8 +2,8 @@ on init
     write /sys/kernel/debug/sched_features NO_ENERGY_AWARE
     write /dev/stune/schedtune.prefer_idle 1
     write /dev/stune/schedtune.boost 100
-    write /dev/stune/foreground/schedtune.prefer_idle 1
-    write /proc/sys/vm/page-cluster 0
+	write /dev/stune/foreground/schedtune.prefer_idle 1
+	write /proc/sys/vm/page-cluster 0
     write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 0
     write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 0
     write /sys/devices/soc/${ro.boot.bootdevice}/hibern8_on_idle_enable 0
@@ -30,15 +30,15 @@ on post-fs
 on late-fs
     write /sys/block/dm-3/queue/read_ahead_kb 2048
     write /sys/block/sda/queue/iostats 0
-    write /sys/block/sda/queue/scheduler cfq
-    write /sys/block/sda/queue/iosched/slice_idle 0
-    write /sys/block/sda/queue/read_ahead_kb 2048
-    write /sys/block/sda/queue/nr_requests 256
-    write /sys/block/sde/queue/iostats 0
-    write /sys/block/sde/queue/scheduler cfq
-    write /sys/block/sde/queue/iosched/slice_idle 0
-    write /sys/block/sde/queue/read_ahead_kb 2048
-    write /sys/block/sde/queue/nr_requests 256
+	write /sys/block/sda/queue/scheduler cfq
+	write /sys/block/sda/queue/iosched/slice_idle 0
+	write /sys/block/sda/queue/read_ahead_kb 2048
+	write /sys/block/sda/queue/nr_requests 256
+	write /sys/block/sde/queue/iostats 0
+	write /sys/block/sde/queue/scheduler cfq
+	write /sys/block/sde/queue/iosched/slice_idle 0
+	write /sys/block/sde/queue/read_ahead_kb 2048
+	write /sys/block/sde/queue/nr_requests 256
     write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor performance
     write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor performance
 
@@ -68,6 +68,7 @@ on property:sys.boot_completed=1
     chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/governor
     chown system system /sys/module/sync/parameters/fsync_enabled
     chmod 0664 /sys/module/sync/parameters/fsync_enabled
+    write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 710000000
     write /sys/module/sync/parameters/fsync_enabled N
     write /dev/stune/schedtune.prefer_idle 0
     write /dev/stune/schedtune.prefer_idle 0
@@ -82,10 +83,10 @@ on property:sys.boot_completed=1
     write /sys/class/thermal/thermal_message/sconfig 10
     write /sys/block/sda/queue/read_ahead_kb 128
     write /sys/block/sda/queue/nr_requests 128
-    write /sys/block/sda/queue/iostats 1
+    write /sys/block/sda/queue/iostats 0
     write /sys/block/sdf/queue/read_ahead_kb 128
     write /sys/block/sdf/queue/nr_requests 128
-    write /sys/block/sdf/queue/iostats 1
+    write /sys/block/sdf/queue/iostats 0
     write /sys/block/dm-0/queue/read_ahead_kb 128
     write /sys/block/dm-1/queue/read_ahead_kb 128
     write /sys/block/dm-2/queue/read_ahead_kb 128

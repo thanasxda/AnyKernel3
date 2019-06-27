@@ -123,7 +123,7 @@ echo 90 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
 echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
 echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable
 
-#echo 0 > /proc/sys/kernel/sched_walt_rotate_big_tasks
+#echo 1 > /proc/sys/kernel/sched_walt_rotate_big_tasks
 
 echo "0:300000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "1:300000" > /sys/module/msm_performance/parameters/cpu_min_freq
@@ -319,8 +319,7 @@ if [[ $sch == *"maple"* ]]; then
 	done;
 	set_io maple /sys/block/mmcblk0
 	set_io maple /sys/block/sda
-	else
-fi
+	fi
 
 ########################
 chmod 0644 /sys/class/misc/boeffla_wakelock_blocker/wakelock_blocker
@@ -345,8 +344,8 @@ done;
 
 #pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver;
 
-#killall -9 android.process.media
-#killall -9 mediaserver
+killall -9 android.process.media
+killall -9 mediaserver
 
 ########################
 echo "0" > /proc/sys/kernel/sched_schedstats
