@@ -1,3 +1,5 @@
+#!/system/bin/sh
+
 ### MLX KERNEL PRE-CONFIGURATION SCRIPT BY THANAS @ XDA
 ###messy shit. feel free to donate kneecap if you read this
 
@@ -234,7 +236,7 @@ echo "mem" > /sys/power/autosleep
 
 echo "deep" > /sys/power/mem_sleep
 
-echo 10 > /sys/class/thermal/thermal_message/sconfig
+echo "10" > /sys/class/thermal/thermal_message/sconfig
 
 chmod 666 /sys/module/sync/parameters/fsync_enable
 chown root /sys/module/sync/parameters/fsync_enable

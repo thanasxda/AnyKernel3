@@ -80,7 +80,6 @@ on property:sys.boot_completed=1
     write /sys/class/kgsl/kgsl-3d0/force_no_nap 0
     write /sys/class/kgsl/kgsl-3d0/throttling 0
     write /sys/module/printk/parameters/console_suspend Y
-    write /sys/class/thermal/thermal_message/sconfig 10
     write /sys/block/sda/queue/read_ahead_kb 128
     write /sys/block/sda/queue/nr_requests 128
     write /sys/block/sda/queue/iostats 0
@@ -91,6 +90,7 @@ on property:sys.boot_completed=1
     write /sys/block/dm-1/queue/read_ahead_kb 128
     write /sys/block/dm-2/queue/read_ahead_kb 128
     write /sys/block/dm-3/queue/read_ahead_kb 128
+    write /sys/class/thermal/thermal_message/sconfig "10"
     
 on charger
     write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
