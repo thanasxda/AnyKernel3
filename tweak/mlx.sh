@@ -87,9 +87,9 @@ echo 1 > /dev/stune/top-app/schedtune.prefer_idle
 echo 1 > /proc/sys/kernel/sched_child_runs_first 
 echo 1 > /proc/sys/kernel/sched_tunable_scaling
 echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
-#echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
+echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 echo 980000 > /proc/sys/kernel/sched_rt_runtime_us
-#echo 15000000 > /proc/sys/kernel/sched_latency_ns
+echo 100000 > /proc/sys/kernel/sched_latency_ns
 
 echo "0" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
 #echo '0:0' > /sys/module/cpu_boost/parameters/input_boost_freq
@@ -102,7 +102,7 @@ echo 1200 > /sys/module/cpu_boost/parameters/powerkey_input_boost_ms
 
 echo "0-3, 6-7" > /dev/cpuset/camera-daemon/cpus
 echo "0-7" > /dev/cpuset/top-app/cpus
-#echo "0-7" /dev/cpuset/foreground/cpus
+echo "0-7" /dev/cpuset/foreground/cpus
 #echo "0-7" /dev/cpuset/background/cpus 
 #echo "0-7" /dev/cpuset/system-background/cpus
 echo "0" > /dev/cpuset/restricted/cpus 
@@ -214,12 +214,12 @@ echo "1" > /proc/sys/vm/oom_dump_tasks
 echo "1" > /proc/sys/vm/oom_kill_allocating_task
 echo "1200" > /proc/sys/vm/stat_interval
 echo "0" > /proc/sys/vm/swap_ratio
-echo "60" > /proc/sys/vm/swappiness
+echo "100" > /proc/sys/vm/swappiness
 echo "40" > /proc/sys/vm/vfs_cache_pressure
 
-echo "128" > /proc/sys/kernel/random/read_wakeup_threshold 128
-echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs 96
-#echo "4096" > /proc/sys/kernel/random/write_wakeup_threshold 4096
+echo "128" > /proc/sys/kernel/random/read_wakeup_threshold 
+echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs 
+echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold 
 
 chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 chown root /sys/module/lowmemorykiller/parameters/minfree
@@ -552,6 +552,3 @@ echo "Y" > /sys/kernel/debug/dsi_ss_ea8074_notch_fhd_cmd_display/ulps_enable
 fstrim /data;
 fstrim /cache;
 fstrim /system;
-
-
-
