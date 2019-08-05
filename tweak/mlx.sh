@@ -8,9 +8,6 @@ sleep 30;
 echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
 
-setprop sys.use_fifo_ui 1
-setprop debug.composition.type c2d
-
 ########################
 #echo 0 > /dev/cpuctl/cgroup.clone_children
 #echo 0 > /dev/cpuctl/cgroup.procs
@@ -86,10 +83,10 @@ echo 1 > /dev/stune/top-app/schedtune.prefer_idle
 #echo 0 > /proc/sys/kernel/sched_boost
 echo 1 > /proc/sys/kernel/sched_child_runs_first 
 echo 1 > /proc/sys/kernel/sched_tunable_scaling
-echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
-echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
+#echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
+#echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 echo 980000 > /proc/sys/kernel/sched_rt_runtime_us
-echo 100000 > /proc/sys/kernel/sched_latency_ns
+#echo 100000 > /proc/sys/kernel/sched_latency_ns
 
 echo "0" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
 #echo '0:0' > /sys/module/cpu_boost/parameters/input_boost_freq
@@ -113,7 +110,7 @@ echo "1" > /sys/module/workqueue/parameters/power_efficient
 echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
 #echo 1209600 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
-echo 90 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load 
+echo 100 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load 
 echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
 echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 
@@ -121,7 +118,7 @@ echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
 #echo 1574400 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
-echo 90 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load 
+echo 100 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load 
 echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
 echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable
 
@@ -184,7 +181,7 @@ echo "NEXT_BUDDY" > /sys/kernel/debug/sched_features
 echo "NO_GENTLE_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features
 echo "NO_RT_RUNTIME_SHARE" > /sys/kernel/debug/sched_features
 echo "NO_TTWU_QUEUE" > /sys/kernel/debug/sched_features
-echo "NO_LD_BIAS" > /sys/kernel/debug/sched_features
+echo "NO_LB_BIAS" > /sys/kernel/debug/sched_features
 
 sysctl -e -w kernel.panic_on_oops=0
 sysctl -e -w kernel.panic=0
@@ -206,20 +203,20 @@ echo "64" > /sys/class/drm/card0/device/idle_timeout_ms
 
 ########################
 echo "1" > /proc/sys/vm/compact_unevictable_allowed
-echo "3" > /proc/sys/vm/dirty_background_ratio
+echo "15" > /proc/sys/vm/dirty_background_ratio
 echo "500" > /proc/sys/vm/dirty_expire_centisecs
-echo "30" > /proc/sys/vm/dirty_ratio
+echo "60" > /proc/sys/vm/dirty_ratio
 echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
 echo "1" > /proc/sys/vm/oom_dump_tasks
 echo "1" > /proc/sys/vm/oom_kill_allocating_task
 echo "1200" > /proc/sys/vm/stat_interval
 echo "0" > /proc/sys/vm/swap_ratio
-echo "100" > /proc/sys/vm/swappiness
-echo "40" > /proc/sys/vm/vfs_cache_pressure
+echo "10" > /proc/sys/vm/swappiness
+echo "10" > /proc/sys/vm/vfs_cache_pressure
 
 echo "128" > /proc/sys/kernel/random/read_wakeup_threshold 
 echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs 
-echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold 
+#echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold 
 
 chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 chown root /sys/module/lowmemorykiller/parameters/minfree
@@ -246,7 +243,7 @@ echo "N" > /sys/module/sync/parameters/fsync_enable
 for i in /sys/block/*/queue; do
   echo "0" > $i/add_random;
   echo "0" > $i/iostats;
-  echo "anxiety" > $i/scheduler;
+  echo "cfq" > $i/scheduler;
   echo "0" > $i/io_poll;
   echo "0" > $i/nomerges;
   echo "128" > $i/nr_requests;
@@ -266,8 +263,8 @@ for i in /sys/block/*/queue/iosched; do
   echo 50 > $i/slice_async;
   echo 2 > $i/slice_async_rq;
   echo 0 > $i/slice_idle;
-  echo 0 > $i/group_idle;
-  echo 1 > $i/low_latency;
+  echo 1 > $i/group_idle;
+  echo 0 > $i/low_latency;
   echo 300 > $i/target_latency;
 done;
 
@@ -552,3 +549,4 @@ echo "Y" > /sys/kernel/debug/dsi_ss_ea8074_notch_fhd_cmd_display/ulps_enable
 fstrim /data;
 fstrim /cache;
 fstrim /system;
+
