@@ -38,6 +38,10 @@ set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 ## AnyKernel install
 dump_boot;
 
+
+# Begin Ramdisk Changes
+. /tmp/anykernel/tools/fstab.sh;
+
 # begin ramdisk changes
 
 # init.rc
