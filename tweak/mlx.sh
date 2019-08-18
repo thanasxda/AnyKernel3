@@ -105,7 +105,7 @@ echo "0-7" /dev/cpuset/foreground/cpus
 echo "0" > /dev/cpuset/restricted/cpus 
 #echo "0-3" > /dev/cpuset/kernel/cpus
 
-echo "0" > /sys/module/workqueue/parameters/power_efficient
+echo "1" > /sys/module/workqueue/parameters/power_efficient
 
 echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
@@ -353,7 +353,7 @@ echo "1" > /sys/module/printk/parameters/console_suspend
 
 echo "N" > /sys/kernel/debug/debug_enabled
 
-echo "N" > /sys/module/workqueue/parameters/power_efficient
+echo "Y" > /sys/module/workqueue/parameters/power_efficient
 echo "Y" > /sys/module/bluetooth/parameters/disable_ertm
 echo "Y" > /sys/module/bluetooth/parameters/disable_esco
 echo "N" > /sys/module/cifs/parameters/enable_oplocks
@@ -434,7 +434,7 @@ echo "1" > /sys/class/lcd/panel/power_reduce
 fi;
 if [ -e "/sys/module/workqueue/parameters/power_efficient" ]; then
 chmod 0644 /sys/module/workqueue/parameters/power_efficient
-echo "N" > /sys/module/workqueue/parameters/power_efficient
+echo "Y" > /sys/module/workqueue/parameters/power_efficient
 fi;
 if [ -e "/sys/module/pm2/parameters/idle_sleep_mode" ]; then
 chmod 0644 /sys/module/pm2/parameters/idle_sleep_mode
