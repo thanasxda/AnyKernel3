@@ -105,7 +105,7 @@ echo "0-7" /dev/cpuset/foreground/cpus
 echo "0" > /dev/cpuset/restricted/cpus 
 #echo "0-3" > /dev/cpuset/kernel/cpus
 
-echo "1" > /sys/module/workqueue/parameters/power_efficient
+echo "0" > /sys/module/workqueue/parameters/power_efficient
 
 echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
@@ -263,7 +263,7 @@ for i in /sys/block/*/queue/iosched; do
   echo 50 > $i/slice_async;
   echo 2 > $i/slice_async_rq;
   echo 0 > $i/slice_idle;
-  echo 1 > $i/group_idle;
+  echo 8 > $i/group_idle;
   echo 0 > $i/low_latency;
   echo 300 > $i/target_latency;
 done;
@@ -353,7 +353,7 @@ echo "1" > /sys/module/printk/parameters/console_suspend
 
 echo "N" > /sys/kernel/debug/debug_enabled
 
-echo "Y" > /sys/module/workqueue/parameters/power_efficient
+echo "N" > /sys/module/workqueue/parameters/power_efficient
 echo "Y" > /sys/module/bluetooth/parameters/disable_ertm
 echo "Y" > /sys/module/bluetooth/parameters/disable_esco
 echo "N" > /sys/module/cifs/parameters/enable_oplocks
@@ -386,7 +386,7 @@ echo "0" > /proc/sys/net/ipv4/cipso_cache_enable
 echo "0" > /proc/sys/net/ipv4/cipso_rbm_strictvalid
 echo "0" > /proc/sys/net/ipv4/igmp_link_local_mcast_reports
 echo "24" > /proc/sys/net/ipv4/ipfrag_time
-echo "westwood" > /proc/sys/net/ipv4/tcp_congestion_control
+echo "bbr" > /proc/sys/net/ipv4/tcp_congestion_control
 echo "1" > /proc/sys/net/ipv4/tcp_ecn
 echo "0" > /proc/sys/net/ipv4/tcp_fwmark_accept
 echo "320" > /proc/sys/net/ipv4/tcp_keepalive_intvl
@@ -434,7 +434,7 @@ echo "1" > /sys/class/lcd/panel/power_reduce
 fi;
 if [ -e "/sys/module/workqueue/parameters/power_efficient" ]; then
 chmod 0644 /sys/module/workqueue/parameters/power_efficient
-echo "Y" > /sys/module/workqueue/parameters/power_efficient
+echo "N" > /sys/module/workqueue/parameters/power_efficient
 fi;
 if [ -e "/sys/module/pm2/parameters/idle_sleep_mode" ]; then
 chmod 0644 /sys/module/pm2/parameters/idle_sleep_mode
