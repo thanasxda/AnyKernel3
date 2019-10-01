@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=MALAKAS KERNEL by thanas @ xda
+kernel.string=MALAKAS KERNEL Q by thanas @ xda
 do.devicecheck=0
 do.modules=0
 do.cleanup=1

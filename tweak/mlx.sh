@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-### MLX KERNEL PRE-CONFIGURATION SCRIPT BY THANAS @ XDA
+### MLX KERNEL Q PRE-CONFIGURATION SCRIPT BY THANAS @ XDA
 ###messy shit. feel free to donate kneecap if you read this
 
 sleep 30;

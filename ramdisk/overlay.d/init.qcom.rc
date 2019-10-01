@@ -109,7 +109,6 @@ on property:sys.boot_completed=1
     setprop persist.hwc.ptor.enable true
     setprop debug.enable.sglscale 1
     setprop debug.sf.hw 1
-    setprop debug.hwui.renderer opengl
     setprop debug.egl.hw 1
     setprop debug.sf.disable_hwc 0
     setprop debug.sf.recomputecrop 0
