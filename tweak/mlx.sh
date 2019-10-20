@@ -81,7 +81,7 @@ echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo 0 > /dev/stune/top-app/tasks
 
 #echo 0 > /proc/sys/kernel/sched_boost
-echo 1 > /proc/sys/kernel/sched_child_runs_first 
+#echo 1 > /proc/sys/kernel/sched_child_runs_first 
 echo 1 > /proc/sys/kernel/sched_tunable_scaling
 #echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
 #echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
@@ -163,8 +163,6 @@ echo "300000" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
 #echo "Y" > /sys/module/lpm_levels/L3/cpu6/pc/idle_enabled
 #echo "Y" > /sys/module/lpm_levels/L3/cpu7/pc/idle_enabled
 
-#echo "1" > /sys/devices/system/cpu/cpuidle/use_deepest_state
-
 echo "Y" > /sys/module/lpm_levels/parameters/cluster_use_deepest_state
 
 write /sys/module/lpm_levels/parameters/sleep_disabled "N" 2>/dev/null
@@ -174,7 +172,7 @@ echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
 ######################## 
 #echo "25000" > /sys/power/pm_freeze_timeout
 echo "CACHE_HOT_BUDDY" > /sys/kernel/debug/sched_features
-echo "ENERGY_AWARE" > /sys/kernel/debug/sched_features
+#echo "ENERGY_AWARE" > /sys/kernel/debug/sched_features
 echo "FBT_STRICT_ORDER" > /sys/kernel/debug/sched_features
 echo "LAST_BUDDY" > /sys/kernel/debug/sched_features
 echo "NEXT_BUDDY" > /sys/kernel/debug/sched_features
@@ -239,15 +237,55 @@ echo "10" > /sys/class/thermal/thermal_message/sconfig
 
 chmod 666 /sys/module/sync/parameters/fsync_enabled
 chown root /sys/module/sync/parameters/fsync_enabled
-echo "N" > /sys/module/sync/parameters/fsync_enabled
+echo "Y" > /sys/module/sync/parameters/fsync_enabled
 
-echo "0" > /sys/block/mmcblk0/queue/iostats;
-echo "128" > /sys/block/mmcblk0/queue/nr_requests;
-echo "128" > /sys/block/mmcblk0/queue/read_ahead_kb;
+echo "0" > /sys/block/mmcblk0/queue/add_random
+echo "0" > /sys/block/mmcblk0/queue/iostats
+echo "cfq" > /sys/block/mmcblk0/queue/scheduler
+echo "0" > /sys/block/mmcblk0/queue/io_poll
+echo "0" > /sys/block/mmcblk0/queue/nomerges
+echo "128" > /sys/block/mmcblk0/queue/nr_requests
+echo "128" > /sys/block/mmcblk0/queue/read_ahead_kb
+echo "0" > /sys/block/mmcblk0/queue/rotational
+echo "1" > /sys/block/mmcblk0/queue/rq_affinity
+echo "write through" > /sys/block/mmcblk0/queue/write_cache
 
-echo "0" > /sys/block/sda/queue/iostats;
-echo "128" > /sys/block/sda/queue/nr_requests;
-echo "128" > /sys/block/sda/queue/read_ahead_kb;
+echo 4 > /sys/block/mmcblk0/queue/iosched/quantum
+echo 80 > /sys/block/mmcblk0/queue/iosched/fifo_expire_sync
+echo 330 > /sys/block/mmcblk0/queue/iosched/fifo_expire_async
+echo 12582912 > /sys/block/mmcblk0/queue/iosched/back_seek_max
+echo 1 > /sys/block/mmcblk0/queue/iosched/back_seek_penalty
+echo 60 > /sys/block/mmcblk0/queue/iosched/slice_sync
+echo 50 > /sys/block/mmcblk0/queue/iosched/slice_async
+echo 2 > /sys/block/mmcblk0/queue/iosched/slice_async_rq
+echo 0 > /sys/block/mmcblk0/queue/iosched/slice_idle
+echo 0 > /sys/block/mmcblk0/queue/iosched/group_idle
+echo 1 > /sys/block/mmcblk0/queue/iosched/low_latency
+echo 300 > /sys/block/mmcblk0/queue/iosched/target_latency
+
+echo "0" > /sys/block/sda/queue/add_random
+echo "0" > /sys/block/sda/queue/iostats
+echo "cfq" > /sys/block/sda/queue/scheduler
+echo "0" > /sys/block/sda/queue/io_poll
+echo "0" > /sys/block/sda/queue/nomerges
+echo "128" > /sys/block/sda/queue/nr_requests
+echo "128" > /sys/block/sda/queue/read_ahead_kb
+echo "0" > /sys/block/sda/queue/rotational
+echo "1" > /sys/block/sda/queue/rq_affinity
+echo "write through" > /sys/block/sda/queue/write_cache
+
+echo 4 > /sys/block/sda/queue/iosched/quantum
+echo 80 > /sys/block/sda/queue/iosched/fifo_expire_sync
+echo 330 > /sys/block/sda/queue/iosched/fifo_expire_async
+echo 12582912 > /sys/block/sda/queue/iosched/back_seek_max
+echo 1 > /sys/block/sda/queue/iosched/back_seek_penalty
+echo 60 > /sys/block/sda/queue/iosched/slice_sync
+echo 50 > /sys/block/sda/queue/iosched/slice_async
+echo 2 > /sys/block/sda/queue/iosched/slice_async_rq
+echo 0 > /sys/block/sda/queue/iosched/slice_idle
+echo 0 > /sys/block/sda/queue/iosched/group_idle
+echo 1 > /sys/block/sda/queue/iosched/low_latency
+echo 300 > /sys/block/sda/queue/iosched/target_latency
 
 ########################
 chmod 0644 /sys/class/misc/boeffla_wakelock_blocker/wakelock_blocker
@@ -327,32 +365,6 @@ echo "0" > /proc/sys/net/ipv6/calipso_cache_bucket_size
 echo "0" > /proc/sys/net/ipv6/calipso_cache_enable
 echo "48" > /proc/sys/net/ipv6/ip6frag_time
 
-
-#if [ ${snapdragon} -eq 1 ];then
-#	set_param_HMP sched_spill_load 90
-#	set_param_HMP sched_init_task_load 40
-#	set_param_HMP sched_freq_inc_notify 3000000
-#	set_param_HMP sched_ravg_hist_size 5
-#	set_param_HMP sched_boost 0
-#	fi;
-#if [ -f "/sys/module/msm_thermal/core_control/enabled" ]; then
-#    write /sys/module/msm_thermal/core_control/enabled "1"
-#    write /sys/kernel/intelli_plug/intelli_plug_active "0"
-#    write /sys/module/blu_plug/parameters/enabled "0"
-#    write /sys/devices/virtual/misc/mako_hotplug_control/enabled "0"
-#    write /sys/module/autosmp/parameters/enabled "0"
-#    write /sys/kernel/zen_decision/enabled "0"
-#	elif [ -f "/sys/module/msm_thermal/parameters/enabled" ]; then
-#    write /sys/module/msm_thermal/parameters/enabled "Y"
-#	elif [ -f "/sys/power/cpuhotplug/enabled" ]; then
-#	set_value 1 /sys/power/cpuhotplug/enabled
-#	elif [ -f "/sys/devices/system/cpu/cpuhotplug/enabled" ]; then
-#	set_value 1 /sys/devices/system/cpu/cpuhotplug/enabled
-#	fi;
-if [ -e "/sys/kernel/fast_charge/force_fast_charge" ];  then
-chmod 0644 /sys/kernel/fast_charge/force_fast_charge
-echo "1" > /sys/kernel/fast_charge/force_fast_charge
-fi;
 if [ -e "/sys/module/lpm_levels/parameters/sleep_disabled" ]; then
 chmod 0644 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "0" > /sys/module/lpm_levels/parameters/sleep_disabled
@@ -360,10 +372,6 @@ fi;
 if [ -e "/sys/class/lcd/panel/power_reduce" ]; then
 chmod 0644 /sys/class/lcd/panel/power_reduce
 echo "1" > /sys/class/lcd/panel/power_reduce
-fi;
-if [ -e "/sys/module/workqueue/parameters/power_efficient" ]; then
-chmod 0644 /sys/module/workqueue/parameters/power_efficient
-echo "N" > /sys/module/workqueue/parameters/power_efficient
 fi;
 if [ -e "/sys/module/pm2/parameters/idle_sleep_mode" ]; then
 chmod 0644 /sys/module/pm2/parameters/idle_sleep_mode
