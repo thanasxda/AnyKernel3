@@ -8,6 +8,9 @@ sleep 30;
 echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
 
+#### extras
+echo fq_codel > /proc/sys/net/core/default_qdisc
+
 ########################
 #echo 0 > /dev/cpuctl/cgroup.clone_children
 #echo 0 > /dev/cpuctl/cgroup.procs
@@ -171,15 +174,15 @@ echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
 
 ########################
 #echo "25000" > /sys/power/pm_freeze_timeout
-echo "CACHE_HOT_BUDDY" > /sys/kernel/debug/sched_features
-echo "ENERGY_AWARE" > /sys/kernel/debug/sched_features
-echo "FBT_STRICT_ORDER" > /sys/kernel/debug/sched_features
-echo "LAST_BUDDY" > /sys/kernel/debug/sched_features
-echo "NEXT_BUDDY" > /sys/kernel/debug/sched_features
-echo "NO_GENTLE_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features
-echo "NO_RT_RUNTIME_SHARE" > /sys/kernel/debug/sched_features
-echo "NO_TTWU_QUEUE" > /sys/kernel/debug/sched_features
-echo "NO_LB_BIAS" > /sys/kernel/debug/sched_features
+echo "CACHE_HOT_BUDDY" >> /sys/kernel/debug/sched_features
+echo "ENERGY_AWARE" >> /sys/kernel/debug/sched_features
+echo "FBT_STRICT_ORDER" >> /sys/kernel/debug/sched_features
+echo "LAST_BUDDY" >> /sys/kernel/debug/sched_features
+echo "NEXT_BUDDY" >> /sys/kernel/debug/sched_features
+echo "NO_GENTLE_FAIR_SLEEPERS" >> /sys/kernel/debug/sched_features
+echo "NO_RT_RUNTIME_SHARE" >> /sys/kernel/debug/sched_features
+echo "NO_TTWU_QUEUE" >> /sys/kernel/debug/sched_features
+echo "NO_LB_BIAS" >> /sys/kernel/debug/sched_features
 
 sysctl -e -w kernel.panic_on_oops=0
 sysctl -e -w kernel.panic=0
@@ -202,21 +205,21 @@ echo "0" > /sys/class/kgsl/kgsl-3d0/force_no_nap
 echo "64" > /sys/class/drm/card0/device/idle_timeout_ms
 
 ########################
-#echo "1" > /proc/sys/vm/compact_unevictable_allowed
-#echo "15" > /proc/sys/vm/dirty_background_ratio
-#echo "500" > /proc/sys/vm/dirty_expire_centisecs
-#echo "60" > /proc/sys/vm/dirty_ratio
-#echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
-#echo "1" > /proc/sys/vm/oom_dump_tasks
-#echo "1" > /proc/sys/vm/oom_kill_allocating_task
-#echo "1200" > /proc/sys/vm/stat_interval
-#echo "0" > /proc/sys/vm/swap_ratio
-#echo "10" > /proc/sys/vm/swappiness
-#echo "10" > /proc/sys/vm/vfs_cache_pressure
+echo "1" > /proc/sys/vm/compact_unevictable_allowed
+echo "15" > /proc/sys/vm/dirty_background_ratio
+echo "500" > /proc/sys/vm/dirty_expire_centisecs
+echo "60" > /proc/sys/vm/dirty_ratio
+echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
+echo "1" > /proc/sys/vm/oom_dump_tasks
+echo "1" > /proc/sys/vm/oom_kill_allocating_task
+echo "1200" > /proc/sys/vm/stat_interval
+echo "0" > /proc/sys/vm/swap_ratio
+echo "10" > /proc/sys/vm/swappiness
+echo "10" > /proc/sys/vm/vfs_cache_pressure
 
-#echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
-#echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs
-#echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold
+echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
+echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs
+echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold
 
 #chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 #chown root /sys/module/lowmemorykiller/parameters/minfree
@@ -225,7 +228,7 @@ echo "64" > /sys/class/drm/card0/device/idle_timeout_ms
 ########################
 echo "1" > /sys/kernel/fast_charge/force_fast_charge
 
-#echo "1" > /sys/kernel/sound_control/mic_gain
+echo "1" > /sys/kernel/sound_control/mic_gain
 
 echo "Y" > /proc/sys/dev/cnss/randomize_mac
 
@@ -250,15 +253,15 @@ echo "0" > /sys/block/mmcblk0/queue/rotational
 echo "1" > /sys/block/mmcblk0/queue/rq_affinity
 echo "write through" > /sys/block/mmcblk0/queue/write_cache
 
-#echo 4 > /sys/block/mmcblk0/queue/iosched/quantum
-#echo 80 > /sys/block/mmcblk0/queue/iosched/fifo_expire_sync
-#echo 330 > /sys/block/mmcblk0/queue/iosched/fifo_expire_async
-#echo 12582912 > /sys/block/mmcblk0/queue/iosched/back_seek_max
-#echo 1 > /sys/block/mmcblk0/queue/iosched/back_seek_penalty
-#echo 60 > /sys/block/mmcblk0/queue/iosched/slice_sync
-#echo 50 > /sys/block/mmcblk0/queue/iosched/slice_async
-#echo 2 > /sys/block/mmcblk0/queue/iosched/slice_async_rq
-#echo 0 > /sys/block/mmcblk0/queue/iosched/slice_idle
+echo 4 > /sys/block/mmcblk0/queue/iosched/quantum
+echo 80 > /sys/block/mmcblk0/queue/iosched/fifo_expire_sync
+echo 330 > /sys/block/mmcblk0/queue/iosched/fifo_expire_async
+echo 12582912 > /sys/block/mmcblk0/queue/iosched/back_seek_max
+echo 1 > /sys/block/mmcblk0/queue/iosched/back_seek_penalty
+echo 60 > /sys/block/mmcblk0/queue/iosched/slice_sync
+echo 50 > /sys/block/mmcblk0/queue/iosched/slice_async
+echo 2 > /sys/block/mmcblk0/queue/iosched/slice_async_rq
+echo 0 > /sys/block/mmcblk0/queue/iosched/slice_idle
 echo 0 > /sys/block/mmcblk0/queue/iosched/group_idle
 echo 1 > /sys/block/mmcblk0/queue/iosched/low_latency
 echo 300 > /sys/block/mmcblk0/queue/iosched/target_latency
@@ -274,15 +277,15 @@ echo "0" > /sys/block/sda/queue/rotational
 echo "1" > /sys/block/sda/queue/rq_affinity
 echo "write through" > /sys/block/sda/queue/write_cache
 
-#echo 4 > /sys/block/sda/queue/iosched/quantum
-#echo 80 > /sys/block/sda/queue/iosched/fifo_expire_sync
-#echo 330 > /sys/block/sda/queue/iosched/fifo_expire_async
-#echo 12582912 > /sys/block/sda/queue/iosched/back_seek_max
-#echo 1 > /sys/block/sda/queue/iosched/back_seek_penalty
-#echo 60 > /sys/block/sda/queue/iosched/slice_sync
-#echo 50 > /sys/block/sda/queue/iosched/slice_async
-#echo 2 > /sys/block/sda/queue/iosched/slice_async_rq
-#echo 0 > /sys/block/sda/queue/iosched/slice_idle
+echo 4 > /sys/block/sda/queue/iosched/quantum
+echo 80 > /sys/block/sda/queue/iosched/fifo_expire_sync
+echo 330 > /sys/block/sda/queue/iosched/fifo_expire_async
+echo 12582912 > /sys/block/sda/queue/iosched/back_seek_max
+echo 1 > /sys/block/sda/queue/iosched/back_seek_penalty
+echo 60 > /sys/block/sda/queue/iosched/slice_sync
+echo 50 > /sys/block/sda/queue/iosched/slice_async
+echo 2 > /sys/block/sda/queue/iosched/slice_async_rq
+echo 0 > /sys/block/sda/queue/iosched/slice_idle
 echo 0 > /sys/block/sda/queue/iosched/group_idle
 echo 1 > /sys/block/sda/queue/iosched/low_latency
 echo 300 > /sys/block/sda/queue/iosched/target_latency
