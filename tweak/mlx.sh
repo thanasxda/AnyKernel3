@@ -78,7 +78,7 @@ echo 1 > /dev/stune/foreground/schedtune.prefer_idle
 #echo 0 > /dev/stune/top-app/schedtune.boost
 #echo 0 > /dev/stune/top-app/schedtune.colocate
 echo 1 > /dev/stune/top-app/schedtune.prefer_idle
-echo 1 > /dev/stune/top-app/schedtune.sched_boost
+echo 3 > /dev/stune/top-app/schedtune.sched_boost
 echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo 0 > /dev/stune/top-app/schedtune.sched_boost_no_override
 #echo 0 > /dev/stune/top-app/tasks
@@ -94,6 +94,9 @@ echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo "0" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
 #echo '0:0' > /sys/module/cpu_boost/parameters/input_boost_freq
 echo '0:1324800' > /sys/module/cpu_boost/parameters/input_boost_freq
+echo '1:748800' > /sys/module/cpu_boost/parameters/input_boost_freq
+echo '2:748800' > /sys/module/cpu_boost/parameters/input_boost_freq
+echo '3:748800' > /sys/module/cpu_boost/parameters/input_boost_freq
 echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
 #echo 0 > /sys/module/cpu_boost/parameters/powerkey_input_boost_freq
 echo 1200 > /sys/module/cpu_boost/parameters/powerkey_input_boost_ms
@@ -264,7 +267,7 @@ echo 2 > /sys/block/mmcblk0/queue/iosched/slice_async_rq
 echo 0 > /sys/block/mmcblk0/queue/iosched/slice_idle
 echo 0 > /sys/block/mmcblk0/queue/iosched/group_idle
 echo 1 > /sys/block/mmcblk0/queue/iosched/low_latency
-echo 300 > /sys/block/mmcblk0/queue/iosched/target_latency
+echo 100 > /sys/block/mmcblk0/queue/iosched/target_latency
 
 echo "0" > /sys/block/sda/queue/add_random
 echo "0" > /sys/block/sda/queue/iostats
@@ -288,7 +291,7 @@ echo 2 > /sys/block/sda/queue/iosched/slice_async_rq
 echo 0 > /sys/block/sda/queue/iosched/slice_idle
 echo 0 > /sys/block/sda/queue/iosched/group_idle
 echo 1 > /sys/block/sda/queue/iosched/low_latency
-echo 300 > /sys/block/sda/queue/iosched/target_latency
+echo 100 > /sys/block/sda/queue/iosched/target_latency
 
 ########################
 chmod 0644 /sys/class/misc/boeffla_wakelock_blocker/wakelock_blocker
