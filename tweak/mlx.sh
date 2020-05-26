@@ -228,12 +228,58 @@ echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold
 #chown root /sys/module/lowmemorykiller/parameters/minfree
 #echo '21816,29088,36360,43632,50904,65448' > /sys/module/lowmemorykiller/parameters/minfree
 
+### IMPROVE SYSTEM MEMORY MANAGEMENT ###
+# Increase size of file handles and inode cache
+sysctl fs.file-max=2097152
+### GENERAL NETWORK SECURITY OPTIONS ###
+# Number of times SYNACKs for passive TCP connection.
+sysctl net.ipv4.tcp_synack_retries=2
+# Allowed local port range
+sysctl net.ipv4.ip_local_port_range=2000 65535
+# Protect Against TCP Time-Wait
+sysctl net.ipv4.tcp_rfc1337=1
+# Decrease the time default value for tcp_fin_timeout connection
+sysctl net.ipv4.tcp_fin_timeout=15
+# Decrease the time default value for connections to keep alive
+sysctl net.ipv4.tcp_keepalive_time=300
+sysctl net.ipv4.tcp_keepalive_probes=5
+sysctl net.ipv4.tcp_keepalive_intvl=15
+### TUNING NETWORK PERFORMANCE ###
+# Default Socket Receive Buffer
+sysctl net.core.rmem_default=31457280
+# Maximum Socket Receive Buffer
+sysctl net.core.rmem_max=12582912
+# Default Socket Send Buffer
+sysctl net.core.wmem_default=31457280
+# Maximum Socket Send Buffer
+sysctl net.core.wmem_max=12582912
+# Increase number of incoming connections
+sysctl net.core.somaxconn=4096
+# Increase number of incoming connections backlog
+sysctl net.core.netdev_max_backlog=65536
+# Increase the maximum amount of option memory buffers
+sysctl net.core.optmem_max=25165824
+# Increase the maximum total buffer-space allocatable
+# This is measured in units of pages (4096 bytes)
+sysctl net.ipv4.tcp_mem=65536 131072 262144
+sysctl net.ipv4.udp_mem=65536 131072 262144
+# Increase the read-buffer space allocatable
+sysctl net.ipv4.tcp_rmem=8192 87380 16777216
+sysctl net.ipv4.udp_rmem_min=16384
+# Increase the write-buffer-space allocatable
+sysctl net.ipv4.tcp_wmem=8192 65536 16777216
+sysctl net.ipv4.udp_wmem_min=16384
+# Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
+sysctl net.ipv4.tcp_max_tw_buckets=1440000
+sysctl net.ipv4.tcp_tw_recycle=1
+sysctl net.ipv4.tcp_tw_reuse=1
+
 ########################
 echo "1" > /sys/kernel/fast_charge/force_fast_charge
 
 echo "1" > /sys/kernel/sound_control/mic_gain
 
-echo "Y" > /proc/sys/dev/cnss/randomize_mac
+echo "1" > /proc/sys/dev/cnss/randomize_mac
 
 echo "mem" > /sys/power/autosleep
 
