@@ -35,9 +35,12 @@ on init
     write /sys/block/dm-0/queue/read_ahead_kb 2048
     write /sys/block/dm-1/queue/read_ahead_kb 2048
     write /sys/block/dm-2/queue/read_ahead_kb 2048
-    
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor performance
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor performance
+
+
 on boot
-   
+
 on post-fs
 
 on late-fs
@@ -109,7 +112,7 @@ on property:sys.boot_completed=1
     write /sys/block/sda/queue/iostats 0
     write /sys/block/sde/queue/read_ahead_kb 128
     write /sys/block/sde/queue/nr_requests 128
-    write /sys/block/sde/queue/iostats 0    
+    write /sys/block/sde/queue/iostats 0
     write /sys/block/sdf/queue/read_ahead_kb 128
     write /sys/block/sdf/queue/nr_requests 128
     write /sys/block/sdf/queue/iostats 0
@@ -138,7 +141,7 @@ on property:sys.boot_completed=1
     setprop debug.composition.type c2d
     setprop video.accelerate.hw 1
     write > /proc/sys/net/ipv4/tcp_congestion_control "bbr"
-    
+
 on charger
     write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
     write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
