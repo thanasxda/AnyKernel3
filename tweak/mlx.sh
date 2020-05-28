@@ -7,6 +7,7 @@ sleep 30;
 
 echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
+echo 1 > /proc/sys/vm/overcommit_memory
 
 #### extras
 echo fq_codel > /proc/sys/net/core/default_qdisc
@@ -83,13 +84,15 @@ echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo 0 > /dev/stune/top-app/schedtune.sched_boost_no_override
 #echo 0 > /dev/stune/top-app/tasks
 
+sysctl -w kernel.sched_scaling_enable=1
+echo 1 > /proc/sys/kernel/sched_scaling_enable
+echo 2 > /proc/sys/kernel/sched_tunable_scaling
 #echo 0 > /proc/sys/kernel/sched_boost
-#echo 1 > /proc/sys/kernel/sched_child_runs_first
-#echo 1 > /proc/sys/kernel/sched_tunable_scaling
-#echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
-#echo 20000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
+echo 1 > /proc/sys/kernel/sched_child_runs_first
+echo 1000000 > /proc/sys/kernel/sched_min_granularity_ns
+echo 2000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 #echo 980000 > /proc/sys/kernel/sched_rt_runtime_us
-#echo 100000 > /proc/sys/kernel/sched_latency_ns
+echo 40000 > /proc/sys/kernel/sched_latency_ns
 
 #echo "0" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
 #echo '0:0' > /sys/module/cpu_boost/parameters/input_boost_freq
@@ -186,6 +189,8 @@ echo "NO_GENTLE_FAIR_SLEEPERS" >> /sys/kernel/debug/sched_features
 echo "NO_RT_RUNTIME_SHARE" >> /sys/kernel/debug/sched_features
 echo "NO_TTWU_QUEUE" >> /sys/kernel/debug/sched_features
 echo "NO_LB_BIAS" >> /sys/kernel/debug/sched_features
+echo "WAKEUP_PREEMPTION" >> /sys/kernel/debug/sched_features
+echo "AFFINE_WAKEUPS" >> /sys/kernel/debug/sched_features
 
 sysctl -e -w kernel.panic_on_oops=0
 sysctl -e -w kernel.panic=0
@@ -224,9 +229,20 @@ echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
 echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs
 echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold
 
-#chmod 666 /sys/module/lowmemorykiller/parameters/minfree
-#chown root /sys/module/lowmemorykiller/parameters/minfree
-#echo '21816,29088,36360,43632,50904,65448' > /sys/module/lowmemorykiller/parameters/minfree
+chmod 666 /sys/module/lowmemorykiller/parameters/minfree
+chown root /sys/module/lowmemorykiller/parameters/minfree
+echo '21816,29088,36360,43632,50904,65448' > /sys/module/lowmemorykiller/parameters/minfree
+
+# Disable TCP SACK (TCP Selective Acknowledgement),
+# DSACK (duplicate TCP SACK), and FACK (Forward Acknowledgement)
+#sysctl net.ipv4.tcp_sack=0
+sysctl net.ipv4.tcp_dsack=0
+#sysctl net.ipv4.tcp_fack=0
+
+# enable recycling and fast reuse of TCP TIME_WAIT sockets
+sysctl net.ipv4.tcp_tw_recycle=1
+sysctl net.ipv4.tcp_tw_reuse=1
+sysctl net.ipv4.tcp_slow_start_after_idle=1
 
 ### IMPROVE SYSTEM MEMORY MANAGEMENT ###
 # Increase size of file handles and inode cache
@@ -412,7 +428,7 @@ echo "320" > /proc/sys/net/ipv4/tcp_keepalive_intvl
 echo "21600" > /proc/sys/net/ipv4/tcp_keepalive_time
 echo "1800" > /proc/sys/net/ipv4/tcp_probe_interval
 echo "1" > /proc/sys/net/ipv4/tcp_no_metrics_save
-echo "0" > /proc/sys/net/ipv4/tcp_slow_start_after_idle
+echo "1" > /proc/sys/net/ipv4/tcp_slow_start_after_idle
 echo "0" > /proc/sys/net/ipv6/calipso_cache_bucket_size
 echo "0" > /proc/sys/net/ipv6/calipso_cache_enable
 echo "48" > /proc/sys/net/ipv6/ip6frag_time
