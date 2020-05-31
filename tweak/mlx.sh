@@ -145,7 +145,7 @@ echo "0" > /sys/module/workqueue/parameters/power_efficient
 
 #echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-echo "10000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
+echo "5000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
 echo "1000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
 echo "1766400" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
 echo "70" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
@@ -155,7 +155,7 @@ echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 
 #echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
-echo "10000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
+echo "5000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
 echo "1000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
 echo "2649600" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
 echo "70" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
