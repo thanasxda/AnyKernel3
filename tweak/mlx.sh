@@ -3,13 +3,40 @@
 ### MLX KERNEL Q PRE-CONFIGURATION SCRIPT BY THANAS @ XDA
 ###messy shit. feel free to donate kneecap if you read this
 
-sleep 30;
+sleep 25;
 
+echo "1" /proc/sys/fs/leases-enable
 echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
 echo 1 > /proc/sys/vm/overcommit_memory
 
-#### extras
+setprop sys.use_fifo_ui 1
+setprop persist.radio.add_power_save 1
+setprop debug.composition.type c2d
+setprop video.accelerate.hw 1
+setprop persist.sys.ui.hw 1
+setprop debug.egl.buffcount 4
+setprop debug.egl.hw 1
+setprop debug.hwui.renderer skiagl
+setprop net.tcp.buffersize.default 6144,87380,1048576,6144,87380,524288
+setprop net.tcp.buffersize.wifi 524288,1048576,2097152,524288,1048576,2097152
+setprop net.tcp.buffersize.umts 6144,87380,1048576,6144,87380,524288
+setprop net.tcp.buffersize.gprs 6144,87380,1048576,6144,87380,524288
+setprop net.tcp.buffersize.edge 6144,87380,524288,6144,16384,262144
+setprop net.tcp.buffersize.hspa 6144,87380,524288,6144,16384,262144
+setprop net.tcp.buffersize.lte 524288,1048576,2097152,524288,1048576,2097152
+setprop net.tcp.buffersize.hsdpa 6144,87380,1048576,6144,87380,1048576
+setprop net.tcp.buffersize.evdo_b 6144,87380,1048576,6144,87380,1048576
+setprop MIN_HIDDEN_APPS false
+setprop ACTIVITY_INACTIVE_RESET_TIME false
+setprop MIN_RECENT_TASKS false
+setprop PROC_START_TIMEOUT false
+setprop CPU_MIN_CHECK_DURATION false
+setprop GC_TIMEOUT false
+setprop SERVICE_TIMEOUT false
+setprop MIN_CRASH_INTERVAL false
+setprop ENFORCE_PROCESS_LIMIT false
+
 echo fq_codel > /proc/sys/net/core/default_qdisc
 
 ########################
@@ -79,7 +106,7 @@ echo 1 > /dev/stune/foreground/schedtune.prefer_idle
 #echo 0 > /dev/stune/top-app/schedtune.boost
 #echo 0 > /dev/stune/top-app/schedtune.colocate
 echo 1 > /dev/stune/top-app/schedtune.prefer_idle
-echo 3 > /dev/stune/top-app/schedtune.sched_boost
+echo 5 > /dev/stune/top-app/schedtune.sched_boost
 echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo 0 > /dev/stune/top-app/schedtune.sched_boost_no_override
 #echo 0 > /dev/stune/top-app/tasks
@@ -118,18 +145,22 @@ echo "0" > /sys/module/workqueue/parameters/power_efficient
 
 #echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-#echo 1209600 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
-#echo 100 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
-#echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
-echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
+echo "10000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
+echo "1000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
+echo "1766400" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
+echo "70" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
+echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
+echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 
 
 #echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
-#echo 1574400 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
-#echo 100 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
-#echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
-echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable
+echo "10000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
+echo "1000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
+echo "2649600" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
+echo "70" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
+echo "1" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
+echo "1" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable
 
 #echo 1 > /proc/sys/kernel/sched_walt_rotate_big_tasks
 
@@ -172,14 +203,15 @@ echo "300000" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
 #echo "Y" > /sys/module/lpm_levels/L3/cpu6/pc/idle_enabled
 #echo "Y" > /sys/module/lpm_levels/L3/cpu7/pc/idle_enabled
 
+echo "Y" > /sys/module/lpm_levels/parameters/lpm_prediction
+echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Y" > /sys/module/lpm_levels/parameters/cluster_use_deepest_state
 
 write /sys/module/lpm_levels/parameters/sleep_disabled "N" 2>/dev/null
 
 echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
 
-########################
-#echo "25000" > /sys/power/pm_freeze_timeout
+echo "5000" > /sys/power/pm_freeze_timeout
 echo "CACHE_HOT_BUDDY" >> /sys/kernel/debug/sched_features
 echo "ENERGY_AWARE" >> /sys/kernel/debug/sched_features
 echo "FBT_STRICT_ORDER" >> /sys/kernel/debug/sched_features
@@ -195,7 +227,7 @@ echo "AFFINE_WAKEUPS" >> /sys/kernel/debug/sched_features
 sysctl -e -w kernel.panic_on_oops=0
 sysctl -e -w kernel.panic=0
 
-########################
+echo "0" > /sys/kernel/mm/ksm/run
 echo "0" > /sys/kernel/rcu_expedited
 echo "1" > /sys/kernel/rcu_normal
 
@@ -205,29 +237,38 @@ echo "710000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 echo "0" > /sys/class/kgsl/kgsl-3d0/bus_split
 echo "1" > /sys/class/kgsl/kgsl-3d0/force_bus_on
 echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on
-echo "0" > /sys/class/kgsl/kgsl-3d0/force_rail_on
+echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on
 echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
-
-echo "0" > /sys/class/kgsl/kgsl-3d0/force_no_nap
-
+echo "0" > /sys/class/kgsl/kgsl-3d0/max_pwrlvl
+echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
+echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on_enabled
+echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on_enabled
+echo "1" > /sys/class/kgsl/kgsl-3d0/force_no_nap
 echo "64" > /sys/class/drm/card0/device/idle_timeout_ms
 
 ########################
+echo "1" > /proc/sys/vm/overcommit_memory
+echo "0" > /proc/sys/vm/oom_dump_tasks
+echo "0" /proc/sys/vm/overcommit_ratio
 echo "1" > /proc/sys/vm/compact_unevictable_allowed
 echo "15" > /proc/sys/vm/dirty_background_ratio
 echo "500" > /proc/sys/vm/dirty_expire_centisecs
 echo "60" > /proc/sys/vm/dirty_ratio
 echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
-echo "1" > /proc/sys/vm/oom_dump_tasks
+
 echo "1" > /proc/sys/vm/oom_kill_allocating_task
 echo "1200" > /proc/sys/vm/stat_interval
 echo "0" > /proc/sys/vm/swap_ratio
 echo "10" > /proc/sys/vm/swappiness
 echo "10" > /proc/sys/vm/vfs_cache_pressure
 
-echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
-echo "96" > /proc/sys/kernel/random/urandom_min_reseed_secs
+echo "512" > /proc/sys/kernel/random/read_wakeup_threshold
+echo "90" > /proc/sys/kernel/random/urandom_min_reseed_secs
 echo "1024" > /proc/sys/kernel/random/write_wakeup_threshold
+
+sysctl -e -w kernel.random.read_wakeup_threshold=512
+sysctl -e -w kernel.random.write_wakeup_threshold=1024
+sysctl -e -w kernel.random.urandom_min_reseed_secs=90
 
 chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 chown root /sys/module/lowmemorykiller/parameters/minfree
@@ -290,6 +331,37 @@ sysctl net.ipv4.tcp_max_tw_buckets=1440000
 sysctl net.ipv4.tcp_tw_recycle=1
 sysctl net.ipv4.tcp_tw_reuse=1
 
+echo "0" >/proc/sys/net/ipv4/conf/default/secure_redirects
+echo "0" >/proc/sys/net/ipv4/conf/default/accept_redirects
+echo "0" >/proc/sys/net/ipv4/conf/default/accept_source_route
+echo "0" >/proc/sys/net/ipv4/conf/all/secure_redirects
+echo "0" >/proc/sys/net/ipv4/conf/all/accept_redirects
+echo "0" >/proc/sys/net/ipv4/conf/all/accept_source_route
+echo "0" >/proc/sys/net/ipv4/ip_forward
+echo "0" >/proc/sys/net/ipv4/ip_dynaddr
+echo "0" >/proc/sys/net/ipv4/ip_no_pmtu_disc
+echo "0" >/proc/sys/net/ipv4/tcp_ecn
+echo "0" >/proc/sys/net/ipv4/tcp_timestamps
+echo "1" >/proc/sys/net/ipv4/tcp_tw_reuse
+echo "1" >/proc/sys/net/ipv4/tcp_fack
+echo "1" >/proc/sys/net/ipv4/tcp_sack
+echo "1" >/proc/sys/net/ipv4/tcp_dsack
+echo "1" >/proc/sys/net/ipv4/tcp_rfc1337
+echo "1" >/proc/sys/net/ipv4/tcp_tw_recycle
+echo "1" >/proc/sys/net/ipv4/tcp_window_scaling
+echo "1" >/proc/sys/net/ipv4/tcp_moderate_rcvbuf
+echo "1" >/proc/sys/net/ipv4/tcp_no_metrics_save
+echo "2" >/proc/sys/net/ipv4/tcp_synack_retries
+echo "2" >/proc/sys/net/ipv4/tcp_syn_retries
+echo "5" >/proc/sys/net/ipv4/tcp_keepalive_probes
+echo "30" >/proc/sys/net/ipv4/tcp_keepalive_intvl
+echo "30" >/proc/sys/net/ipv4/tcp_fin_timeout
+echo "1800" >/proc/sys/net/ipv4/tcp_keepalive_time
+echo "261120" >/proc/sys/net/core/rmem_max
+echo "261120" >/proc/sys/net/core/wmem_max
+echo "261120" >/proc/sys/net/core/rmem_default
+echo "261120" >/proc/sys/net/core/wmem_default
+
 ########################
 echo "1" > /sys/kernel/fast_charge/force_fast_charge
 
@@ -311,11 +383,11 @@ echo "0" > /sys/block/mmcblk0/queue/add_random
 echo "0" > /sys/block/mmcblk0/queue/iostats
 echo "cfq" > /sys/block/mmcblk0/queue/scheduler
 echo "0" > /sys/block/mmcblk0/queue/io_poll
-echo "0" > /sys/block/mmcblk0/queue/nomerges
-echo "128" > /sys/block/mmcblk0/queue/nr_requests
-echo "128" > /sys/block/mmcblk0/queue/read_ahead_kb
+
+echo "512" > /sys/block/mmcblk0/queue/nr_requests
+echo "1024" > /sys/block/mmcblk0/queue/read_ahead_kb
 echo "0" > /sys/block/mmcblk0/queue/rotational
-echo "1" > /sys/block/mmcblk0/queue/rq_affinity
+echo "2" > /sys/block/mmcblk0/queue/rq_affinity
 echo "write through" > /sys/block/mmcblk0/queue/write_cache
 
 echo 4 > /sys/block/mmcblk0/queue/iosched/quantum
@@ -335,11 +407,11 @@ echo "0" > /sys/block/sda/queue/add_random
 echo "0" > /sys/block/sda/queue/iostats
 echo "cfq" > /sys/block/sda/queue/scheduler
 echo "0" > /sys/block/sda/queue/io_poll
-echo "0" > /sys/block/sda/queue/nomerges
-echo "128" > /sys/block/sda/queue/nr_requests
-echo "128" > /sys/block/sda/queue/read_ahead_kb
+echo "2" > /sys/block/sda/queue/nomerges
+echo "512" > /sys/block/sda/queue/nr_requests
+echo "1024" > /sys/block/sda/queue/read_ahead_kb
 echo "0" > /sys/block/sda/queue/rotational
-echo "1" > /sys/block/sda/queue/rq_affinity
+echo "2" > /sys/block/sda/queue/rq_affinity
 echo "write through" > /sys/block/sda/queue/write_cache
 
 echo 4 > /sys/block/sda/queue/iosched/quantum
@@ -500,53 +572,53 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 done
 
 ########################
-#echo userspace > /sys/class/devfreq/soc:qcom,l3-cdsp/governor
-#for cpubw in /sys/class/devfreq/*qcom,cpubw*
-#do
-#    echo "bw_hwmon" > $cpubw/governor
-#    echo 50 > $cpubw/polling_interval
-#    echo "2288 4577 6500 8132 9155 10681" > $cpubw/bw_hwmon/mbps_zones
-#    echo 4 > $cpubw/bw_hwmon/sample_ms
-#    echo 50 > $cpubw/bw_hwmon/io_percent
-#    echo 20 > $cpubw/bw_hwmon/hist_memory
-#    echo 10 > $cpubw/bw_hwmon/hyst_length
-#    echo 0 > $cpubw/bw_hwmon/guard_band_mbps
-#    echo 250 > $cpubw/bw_hwmon/up_scale
-#    echo 1600 > $cpubw/bw_hwmon/idle_mbps
-#done
-#for llccbw in /sys/class/devfreq/*qcom,llccbw*
-#do
-#    echo "bw_hwmon" > $llccbw/governor
-#    echo 50 > $llccbw/polling_interval
-#    echo "1720 2929 3879 5931 6881" > $llccbw/bw_hwmon/mbps_zones
-#    echo 4 > $llccbw/bw_hwmon/sample_ms
-#    echo 80 > $llccbw/bw_hwmon/io_percent
-#    echo 20 > $llccbw/bw_hwmon/hist_memory
-#    echo 10 > $llccbw/bw_hwmon/hyst_length
-#    echo 0 > $llccbw/bw_hwmon/guard_band_mbps
-#    echo 250 > $llccbw/bw_hwmon/up_scale
-#    echo 1600 > $llccbw/bw_hwmon/idle_mbps
-#done
-#for memlat in /sys/class/devfreq/*qcom,memlat-cpu*
-#do
-#    echo "mem_latency" > $memlat/governor
-#    echo 10 > $memlat/polling_interval
-#    echo 400 > $memlat/mem_latency/ratio_ceil
-#done
-#for memlat in /sys/class/devfreq/*qcom,l3-cpu*
-#do
-#    echo "mem_latency" > $memlat/governor
-#    echo 10 > $memlat/polling_interval
-#    echo 400 > $memlat/mem_latency/ratio_ceil
-#done
-#for l3cdsp in /sys/class/devfreq/*qcom,l3-cdsp*
-#do
-#    echo "userspace" > $l3cdsp/governor
-#    chown -h system $l3cdsp/userspace/set_freq
-#done
-#echo 4000 > /sys/class/devfreq/soc:qcom,l3-cpu4/mem_latency/ratio_ceil
-#echo "compute" > /sys/class/devfreq/soc:qcom,mincpubw/governor
-#echo 10 > /sys/class/devfreq/soc:qcom,mincpubw/polling_interval
+echo userspace > /sys/class/devfreq/soc:qcom,l3-cdsp/governor
+for cpubw in /sys/class/devfreq/*qcom,cpubw*
+do
+    echo "bw_hwmon" > $cpubw/governor
+    echo 50 > $cpubw/polling_interval
+    echo "2288 4577 6500 8132 9155 10681" > $cpubw/bw_hwmon/mbps_zones
+    echo 4 > $cpubw/bw_hwmon/sample_ms
+    echo 50 > $cpubw/bw_hwmon/io_percent
+    echo 20 > $cpubw/bw_hwmon/hist_memory
+    echo 10 > $cpubw/bw_hwmon/hyst_length
+    echo 0 > $cpubw/bw_hwmon/guard_band_mbps
+    echo 250 > $cpubw/bw_hwmon/up_scale
+    echo 1600 > $cpubw/bw_hwmon/idle_mbps
+done
+for llccbw in /sys/class/devfreq/*qcom,llccbw*
+do
+    echo "bw_hwmon" > $llccbw/governor
+    echo 50 > $llccbw/polling_interval
+    echo "1720 2929 3879 5931 6881" > $llccbw/bw_hwmon/mbps_zones
+    echo 4 > $llccbw/bw_hwmon/sample_ms
+    echo 80 > $llccbw/bw_hwmon/io_percent
+    echo 20 > $llccbw/bw_hwmon/hist_memory
+    echo 10 > $llccbw/bw_hwmon/hyst_length
+    echo 0 > $llccbw/bw_hwmon/guard_band_mbps
+    echo 250 > $llccbw/bw_hwmon/up_scale
+    echo 1600 > $llccbw/bw_hwmon/idle_mbps
+done
+for memlat in /sys/class/devfreq/*qcom,memlat-cpu*
+do
+    echo "mem_latency" > $memlat/governor
+    echo 10 > $memlat/polling_interval
+    echo 400 > $memlat/mem_latency/ratio_ceil
+done
+for memlat in /sys/class/devfreq/*qcom,l3-cpu*
+do
+    echo "mem_latency" > $memlat/governor
+    echo 10 > $memlat/polling_interval
+    echo 400 > $memlat/mem_latency/ratio_ceil
+done
+for l3cdsp in /sys/class/devfreq/*qcom,l3-cdsp*
+do
+    echo "userspace" > $l3cdsp/governor
+    chown -h system $l3cdsp/userspace/set_freq
+done
+echo 4000 > /sys/class/devfreq/soc:qcom,l3-cpu4/mem_latency/ratio_ceil
+echo "compute" > /sys/class/devfreq/soc:qcom,mincpubw/governor
+echo 10 > /sys/class/devfreq/soc:qcom,mincpubw/polling_interval
 
 echo "Y" > /sys/kernel/debug/dsi-panel-ebbg-fhd-ft8716-video_display/dsi-phy-0_allow_phy_power_off
 echo "Y" > /sys/kernel/debug/dsi-panel-ebbg-fhd-ft8716-video_display/ulps_enable
