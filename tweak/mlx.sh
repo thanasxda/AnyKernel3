@@ -106,7 +106,7 @@ echo 1 > /dev/stune/foreground/schedtune.prefer_idle
 #echo 0 > /dev/stune/top-app/schedtune.boost
 #echo 0 > /dev/stune/top-app/schedtune.colocate
 echo 1 > /dev/stune/top-app/schedtune.prefer_idle
-echo 5 > /dev/stune/top-app/schedtune.sched_boost
+echo 3 > /dev/stune/top-app/schedtune.sched_boost
 echo 1 > /dev/stune/top-app/schedtune.sched_boost_enabled
 #echo 0 > /dev/stune/top-app/schedtune.sched_boost_no_override
 #echo 0 > /dev/stune/top-app/tasks
@@ -147,8 +147,8 @@ echo "0" > /sys/module/workqueue/parameters/power_efficient
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
 echo "5000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
 echo "1000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
-echo "1766400" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
-echo "70" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
+echo "1324800" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
+echo "75" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
 echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
 echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 
@@ -157,8 +157,8 @@ echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
 echo "5000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
 echo "1000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
-echo "2649600" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
-echo "70" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
+echo "1574400" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
+echo "75" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
 echo "1" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
 echo "1" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable
 
