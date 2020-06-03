@@ -27,15 +27,15 @@ setprop net.tcp.buffersize.hspa 6144,87380,524288,6144,16384,262144
 setprop net.tcp.buffersize.lte 524288,1048576,2097152,524288,1048576,2097152
 setprop net.tcp.buffersize.hsdpa 6144,87380,1048576,6144,87380,1048576
 setprop net.tcp.buffersize.evdo_b 6144,87380,1048576,6144,87380,1048576
-setprop MIN_HIDDEN_APPS false
-setprop ACTIVITY_INACTIVE_RESET_TIME false
-setprop MIN_RECENT_TASKS false
-setprop PROC_START_TIMEOUT false
-setprop CPU_MIN_CHECK_DURATION false
-setprop GC_TIMEOUT false
-setprop SERVICE_TIMEOUT false
-setprop MIN_CRASH_INTERVAL false
-setprop ENFORCE_PROCESS_LIMIT false
+#setprop MIN_HIDDEN_APPS false
+#setprop ACTIVITY_INACTIVE_RESET_TIME false
+#setprop MIN_RECENT_TASKS false
+#setprop PROC_START_TIMEOUT false
+#setprop CPU_MIN_CHECK_DURATION false
+#setprop GC_TIMEOUT false
+#setprop SERVICE_TIMEOUT false
+#setprop MIN_CRASH_INTERVAL false
+#setprop ENFORCE_PROCESS_LIMIT false
 
 echo fq_codel > /proc/sys/net/core/default_qdisc
 
@@ -143,20 +143,20 @@ echo "0" > /dev/cpuset/restricted/cpus
 
 echo "0" > /sys/module/workqueue/parameters/power_efficient
 
-#echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/enable
+echo "0" > /sys/devices/system/cpu/cpu0/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-echo "5000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
-echo "1000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
+echo "1000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
+echo "5000" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
 echo "1324800" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
 echo "75" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_load
 echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
 echo "1" > /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable
 
 
-#echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/enable
+echo "0" > /sys/devices/system/cpu/cpu4/core_ctl/enable
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
-echo "5000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
-echo "1000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
+echo "1000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
+echo "5000" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
 echo "1574400" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
 echo "75" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_load
 echo "1" > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
@@ -237,13 +237,14 @@ echo "710000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 echo "0" > /sys/class/kgsl/kgsl-3d0/bus_split
 echo "1" > /sys/class/kgsl/kgsl-3d0/force_bus_on
 echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on
-echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on
 echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
-echo "0" > /sys/class/kgsl/kgsl-3d0/max_pwrlvl
-echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
-echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on_enabled
-echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on_enabled
-echo "1" > /sys/class/kgsl/kgsl-3d0/force_no_nap
+echo "0" > /sys/class/kgsl/kgsl-3d0/force_no_nap
+echo "0" > /sys/class/kgsl/kgsl-3d0/force_rail_on
+#echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on
+#echo "0" > /sys/class/kgsl/kgsl-3d0/max_pwrlvl
+#echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on_enabled
+#echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on_enabled
+#echo "1" > /sys/class/kgsl/kgsl-3d0/force_no_nap
 echo "64" > /sys/class/drm/card0/device/idle_timeout_ms
 
 ########################
