@@ -634,6 +634,14 @@ echo "Y" > /sys/kernel/debug/dsi_tianma_fhd_nt36672a_video_display/ulps_enable
 echo "Y" > /sys/kernel/debug/dsi_ss_ea8074_notch_fhd_cmd_display/dsi-phy-0_allow_phy_power_off
 echo "Y" > /sys/kernel/debug/dsi_ss_ea8074_notch_fhd_cmd_display/ulps_enable
 
+echo 262144 > /proc/sys/net/core/rmem_max
+echo 262144 > /proc/sys/net/core/wmem_max
+echo "4096 16384 262144" > /proc/sys/net/ipv4/tcp_wmem
+echo "4096 87380 262144" > /proc/sys/net/ipv4/tcp_rmem
+echo 1000 > /proc/sys/net/core/netdev_max_backlog
+echo 16384 > /proc/sys/net/ipv4/netfilter/ip_conntrack_max
+echo 16384 > /sys/module/nf_conntrack/parameters/hashsize
+
 ########################
 fstrim /data;
 fstrim /cache;
