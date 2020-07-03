@@ -10,6 +10,8 @@ echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
 echo 1 > /proc/sys/vm/overcommit_memory
 
+echo "write through" | sudo tee /sys/block/*/queue/write_cache
+
 setprop sys.use_fifo_ui 1
 setprop persist.radio.add_power_save 1
 setprop debug.composition.type c2d
