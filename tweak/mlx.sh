@@ -372,9 +372,9 @@ echo "1" > /sys/kernel/sound_control/mic_gain
 
 echo "1" > /proc/sys/dev/cnss/randomize_mac
 
-echo "mem" > /sys/power/autosleep
+#echo "mem" > /sys/power/autosleep
 
-echo "deep" > /sys/power/mem_sleep
+#echo "deep" > /sys/power/mem_sleep
 
 echo "10" > /sys/class/thermal/thermal_message/sconfig
 
