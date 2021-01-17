@@ -30,6 +30,16 @@ ui_printfile() {
 }
 show_progress() { echo "progress $1 $2" >> $OUTFD; }
 file_getprop() { $BB grep "^$2=" "$1" | $BB cut -d= -f2-; }
+find_slot() {
+  local slot=$(getprop ro.boot.slot_suffix 2>/dev/null);
+  test "$slot" || slot=$($BB grep -o 'androidboot.slot_suffix=.*$' /proc/cmdline | $BB cut -d\  -f1 | $BB cut -d= -f2);
+  if [ ! "$slot" ]; then
+    slot=$(getprop ro.boot.slot 2>/dev/null);
+    test "$slot" || slot=$($BB grep -o 'androidboot.slot=.*$' /proc/cmdline | $BB cut -d\  -f1 | $BB cut -d= -f2);
+    test "$slot" && slot=_$slot;
+  fi;
+  test "$slot" && echo "$slot";
+}
 setup_mountpoint() {
   test -L $1 && $BB mv -f $1 ${1}_link;
   if [ ! -d $1 ]; then
@@ -89,9 +99,11 @@ umount_apex() {
   unset ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH;
 }
 mount_all() {
+  if ! is_mounted /cache; then
+    $BB mount /cache 2>/dev/null && UMOUNT_CACHE=1;
+  fi;
   if ! is_mounted /data; then
-    $BB mount /data;
-    UMOUNT_DATA=1;
+    $BB mount /data && UMOUNT_DATA=1;
   fi;
   $BB mount -o ro -t auto /vendor 2>/dev/null;
   setup_mountpoint $ANDROID_ROOT;
@@ -111,12 +123,13 @@ mount_all() {
       if [ $? != 0 ]; then
         ($BB umount /system;
         $BB umount -l /system) 2>/dev/null;
-        if [ "$(getprop ro.boot.dynamic_partitions 2>/dev/null)" ]; then
-          test -e /dev/block/mapper/system || local slot=$(getprop ro.boot.slot_suffix 2>/dev/null);
+        if [ -d /dev/block/mapper ]; then
+          test -e /dev/block/mapper/system || local slot=$(find_slot);
           $BB mount -o ro -t auto /dev/block/mapper/vendor$slot /vendor;
           $BB mount -o ro -t auto /dev/block/mapper/system$slot /system_root;
         else
-          test -e /dev/block/bootdevice/by-name/system || local slot=$(getprop ro.boot.slot_suffix 2>/dev/null);
+          test -e /dev/block/bootdevice/by-name/system || local slot=$(find_slot);
+          $BB mount -o ro -t auto /dev/block/bootdevice/by-name/vendor$slot /vendor 2>/dev/null;
           $BB mount -o ro -t auto /dev/block/bootdevice/by-name/system$slot /system_root;
         fi;
       fi;
@@ -135,14 +148,14 @@ umount_all() {
   (if [ ! -d /postinstall/tmp ]; then
     $BB umount /system;
     $BB umount -l /system;
-    umount_apex;
     if [ -e /system_root ]; then
       $BB umount /system_root;
       $BB umount -l /system_root;
     fi;
-    $BB umount /mnt/system;
-    $BB umount -l /mnt/system;
   fi;
+  $BB umount /mnt/system;
+  $BB umount -l /mnt/system;
+  umount_apex;
   umount /vendor;
   umount -l /vendor;
   $BB umount /mnt/vendor;
@@ -150,6 +163,10 @@ umount_all() {
   if [ "$UMOUNT_DATA" ]; then
     $BB umount /data;
     $BB umount -l /data;
+  fi;
+  if [ "$UMOUNT_CACHE" ]; then
+    $BB umount /cache;
+    $BB umount -l /cache;
   fi) 2>/dev/null;
 }
 setup_env() {
