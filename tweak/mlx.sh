@@ -12,14 +12,14 @@ echo 1 > /proc/sys/vm/overcommit_memory
 
 echo "write through" | sudo tee /sys/block/*/queue/write_cache
 
-setprop sys.use_fifo_ui 1
+#setprop sys.use_fifo_ui 1
 setprop persist.radio.add_power_save 1
-setprop debug.composition.type c2d
+#setprop debug.composition.type c2d
 setprop video.accelerate.hw 1
-setprop persist.sys.ui.hw 1
-setprop debug.egl.buffcount 4
-setprop debug.egl.hw 1
-setprop debug.hwui.renderer skiagl
+#setprop persist.sys.ui.hw 1
+#setprop debug.egl.buffcount 4
+#setprop debug.egl.hw 1
+#setprop debug.hwui.renderer skiagl
 setprop net.tcp.buffersize.default 6144,87380,1048576,6144,87380,524288
 setprop net.tcp.buffersize.wifi 524288,1048576,2097152,524288,1048576,2097152
 setprop net.tcp.buffersize.umts 6144,87380,1048576,6144,87380,524288
