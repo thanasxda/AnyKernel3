@@ -4,15 +4,15 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=MALAKAS KERNEL Q by thanas @ xda
+kernel.string=MALAKAS KERNEL R/11 by thanas@xda
 do.devicecheck=0
 do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
 device.name1=beryllium
-device.name2=dipper
-device.name3=polaris
+device.name2=
+device.name3=
 device.name4=
 device.name5=
 supported.versions=
@@ -65,4 +65,3 @@ dump_boot;
 
 write_boot;
 ## end install
-
