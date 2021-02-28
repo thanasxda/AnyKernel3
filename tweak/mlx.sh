@@ -374,7 +374,7 @@ echo "1" > /proc/sys/dev/cnss/randomize_mac
 
 #echo "mem" > /sys/power/autosleep
 
-#echo "deep" > /sys/power/mem_sleep
+echo "deep" > /sys/power/mem_sleep
 
 echo "10" > /sys/class/thermal/thermal_message/sconfig
 
