@@ -3,12 +3,13 @@
 ### MLX KERNEL Q PRE-CONFIGURATION SCRIPT BY THANAS @ XDA
 ###messy shit. feel free to donate kneecap if you read this
 
-sleep 25;
+sleep 60;
 
 echo "1" /proc/sys/fs/leases-enable
 echo "0" > /proc/sys/fs/dir-notify-enable
 echo "20" > /proc/sys/fs/lease-break-time
 echo 1 > /proc/sys/vm/overcommit_memory
+echo 80 > /proc/sys/vm/overcommit_ratio
 
 echo "write through" | sudo tee /sys/block/*/queue/write_cache
 
@@ -19,7 +20,7 @@ setprop video.accelerate.hw 1
 #setprop persist.sys.ui.hw 1
 #setprop debug.egl.buffcount 4
 #setprop debug.egl.hw 1
-#setprop debug.hwui.renderer skiagl
+setprop debug.hwui.renderer vulkan
 setprop net.tcp.buffersize.default 6144,87380,1048576,6144,87380,524288
 setprop net.tcp.buffersize.wifi 524288,1048576,2097152,524288,1048576,2097152
 setprop net.tcp.buffersize.umts 6144,87380,1048576,6144,87380,524288
@@ -262,7 +263,7 @@ echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
 echo "1" > /proc/sys/vm/oom_kill_allocating_task
 echo "1200" > /proc/sys/vm/stat_interval
 echo "0" > /proc/sys/vm/swap_ratio
-echo "10" > /proc/sys/vm/swappiness
+echo "0" > /proc/sys/vm/swappiness
 echo "10" > /proc/sys/vm/vfs_cache_pressure
 
 echo "512" > /proc/sys/kernel/random/read_wakeup_threshold
